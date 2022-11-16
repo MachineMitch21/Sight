@@ -40,6 +40,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -88,7 +89,22 @@
 				</MenuBar>
 				<BorderPane fx:id="contentPane" prefHeight="${rootPane.height}" prefWidth="${rootPane.width}">
 					<center>
-						<ImageView fx:id="contentImg" fitHeight="${contentPane.height * 0.5}" fitWidth="${contentPane.width * 0.75}" preserveRatio="true" BorderPane.alignment="CENTER" />
+						<GridPane 
+							fx:id="contentCenterGridPane" 
+							prefWidth="${contentPane.width * 0.75}" 
+							prefHeight="${contentPane.height * 0.5}"
+							alignment="center"
+							hgap="10"
+							vgap="10">
+							<ImageView 
+								fx:id="contentImg" 
+								GridPane.columnIndex="0"
+								GridPane.rowIndex="0"
+								fitHeight="${contentCenterGridPane.height}" 
+								fitWidth="${contentCenterGridPane.width}" 
+								preserveRatio="true"
+							/>
+						</GridPane>
 					</center>
 				</BorderPane>
 			</children>

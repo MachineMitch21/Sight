@@ -20,12 +20,14 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage arg0) throws Exception {
-		URL location = getClass().getClassLoader().getResource("ApplicationWindow.fxml");
+		URL location = getClass().getClassLoader().getResource("ApplicationWindowV2.fxml");
 
 		try {
 			Parent root = FXMLLoader.load(location);
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
+			stage.setWidth(640);
+			stage.setHeight(400);
 			stage.setScene(scene);
 			stage.show();
 		} catch (IOException e) {

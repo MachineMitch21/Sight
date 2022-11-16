@@ -3,7 +3,6 @@ package sight.image.operations;
 import java.util.Collection;
 
 import sight.image.Pixel;
-import sight.image.PixelOperation;
 
 /**
  * Additive operation that manipulates the same pixel with multiple operations one after the other. </br>

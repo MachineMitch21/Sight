@@ -1,4 +1,6 @@
-package sight.image;
+package sight.image.operations;
+
+import sight.image.Pixel;
 
 public interface PixelOperation {
 	

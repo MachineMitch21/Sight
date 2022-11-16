@@ -1,7 +1,6 @@
 package sight.image.operations;
 
 import sight.image.Pixel;
-import sight.image.PixelOperation;
 
 public class PixelOperationGreyscale implements PixelOperation {
 	

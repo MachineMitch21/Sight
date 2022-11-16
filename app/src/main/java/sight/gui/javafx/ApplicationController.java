@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.awt.image.BufferedImage;
 
@@ -18,8 +19,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import sight.image.Pixel;
+import sight.image.operations.PixelOperationEvent;
+import sight.image.operations.PixelOperationGreyscale;
+import sight.image.operations.PixelOperationImageViewListener;
+import sight.image.operations.PixelOperationInverse;
+import sight.image.operations.PixelOperationListener;
+import sight.image.operations.PixelOperationMultiStep;
 import sight.utils.ImageUtils;
 
 public class ApplicationController implements Initializable {
@@ -31,22 +39,42 @@ public class ApplicationController implements Initializable {
 	VBox rootPane;
 
 	@FXML
-	ImageView contentImg;
+	BorderPane contentPane;
 
-	BufferedImage originalBuff = null;
+	@FXML
+	GridPane contentCenterGridPane;
+
+	@FXML
+	ImageView contentImg;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		rootPane.prefWidthProperty().bind(anchorPane.widthProperty());
 
-		Image img = new Image("img/spongebob_ripped_pants.jpg");
+		Image img = new Image("img/cat-dragon.jpg");
 		BufferedImage buff = SwingFXUtils.fromFXImage(img, null);
-		originalBuff = buff;
+		contentImg.setImage(ImageUtils.performFullOperation(img, new PixelOperationInverse()));
 
-		if ((buff = ImageUtils.inverse(buff)) != null) {
-			img = SwingFXUtils.toFXImage(buff, null);
-	
-			contentImg.setImage(img);
-		}
+		// ImageUtils.performLapsedOperation(
+		// 	buff, 
+		// 	0, 
+		// 	buff.getWidth(), 
+		// 	0, 
+		// 	buff.getHeight(), 
+		// 	10, 
+		// 	new PixelOperationGreyscale(),
+		// 	new PixelOperationImageViewListener(contentImg)
+		// );
+
+		ImageUtils.performLapsedOperation(
+			buff, 
+			0, 
+			buff.getWidth(), 
+			0, 
+			buff.getHeight(), 
+			1, 
+			new PixelOperationInverse(), 
+			new PixelOperationImageViewListener(contentImg)
+		);
 	}
 }
