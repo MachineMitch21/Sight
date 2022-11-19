@@ -1,7 +1,11 @@
 package sight.gui.javafx;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
@@ -16,6 +20,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import sight.utils.ImageUtils;
 
 public class ApplicationControllerV2 implements Initializable {
@@ -35,6 +41,9 @@ public class ApplicationControllerV2 implements Initializable {
 	@FXML
 	MenuItem inverseMenuItem;
 
+	@FXML
+	MenuItem openMenuItem;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -44,6 +53,7 @@ public class ApplicationControllerV2 implements Initializable {
 			public void handle(ActionEvent event) {
 				BufferedImage buff = ImageUtils.greyscale(SwingFXUtils.fromFXImage(contentImageView.getImage(), null));
 				contentImageView.setImage(SwingFXUtils.toFXImage(buff, null));
+				event.consume();
 			}
 			
 		});
@@ -54,8 +64,33 @@ public class ApplicationControllerV2 implements Initializable {
 			public void handle(ActionEvent event) {
 				BufferedImage buff = ImageUtils.inverse(SwingFXUtils.fromFXImage(contentImageView.getImage(), null));
 				contentImageView.setImage(SwingFXUtils.toFXImage(buff, null));
+				event.consume();
 			}
 
+		});
+		openMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				FileChooser openFileChooser = new FileChooser();
+				openFileChooser.setTitle("Open Image");
+				openFileChooser.getExtensionFilters().addAll(Arrays.asList(
+					new ExtensionFilter("All Files", "*.jpg", "*.png", "*.bmp")
+				));
+
+				File f = openFileChooser.showOpenDialog(imageViewAnchorPane.getScene().getWindow());
+				if (f != null) {
+					try {
+						Image img = new Image(new FileInputStream(f));
+						contentImageView.setImage(img);
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					}
+				} else {
+					System.out.println("No file was chosen for open action...");
+				}
+			}
+			
 		});
 
 		Image img = new Image("img/spongebob_ripped_pants.jpg");

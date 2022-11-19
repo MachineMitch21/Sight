@@ -1,12 +1,12 @@
 package sight.utils;
 
-import sight.image.Pixel;
-import sight.image.operations.PixelOperation;
-import sight.image.operations.PixelOperationEvent;
-import sight.image.operations.PixelOperationGreyscale;
-import sight.image.operations.PixelOperationInverse;
-import sight.image.operations.PixelOperationListener;
-import sight.image.operations.PixelOperationMultiStep;
+import sight.image.pixel.Pixel;
+import sight.image.pixel.operations.PixelOperation;
+import sight.image.pixel.operations.PixelOperationEvent;
+import sight.image.pixel.operations.PixelOperationListener;
+import sight.image.pixel.operations.PixelOperationMultiStep;
+import sight.image.pixel.operations.basic.PixelOperationGreyscale;
+import sight.image.pixel.operations.basic.PixelOperationInverse;
 
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
@@ -31,7 +31,7 @@ public class ImageUtils {
 		int g = (pixel >> 8) & 0xff;
 		int b = pixel & 0xff;
 
-		return new Pixel(r, g, b, a);
+		return new Pixel(r, g, b, a, x, y);
 	}
 
 	public static void setPixelAtPosition(BufferedImage img, int x, int y, Pixel pixel) {

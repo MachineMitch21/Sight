@@ -1,8 +1,8 @@
-package sight.image.operations;
+package sight.image.pixel.operations;
 
 import java.util.Collection;
 
-import sight.image.Pixel;
+import sight.image.pixel.Pixel;
 
 /**
  * Additive operation that manipulates the same pixel with multiple operations one after the other. </br>

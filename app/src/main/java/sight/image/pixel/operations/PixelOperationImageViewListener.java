@@ -1,4 +1,4 @@
-package sight.image.operations;
+package sight.image.pixel.operations;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;

@@ -22,12 +22,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import sight.image.operations.PixelOperationEvent;
-import sight.image.operations.PixelOperationGreyscale;
-import sight.image.operations.PixelOperationImageViewListener;
-import sight.image.operations.PixelOperationInverse;
-import sight.image.operations.PixelOperationListener;
-import sight.image.operations.PixelOperationMultiStep;
+import sight.image.pixel.operations.PixelOperationEvent;
+import sight.image.pixel.operations.PixelOperationImageViewListener;
+import sight.image.pixel.operations.PixelOperationListener;
+import sight.image.pixel.operations.PixelOperationMultiStep;
+import sight.image.pixel.operations.basic.PixelOperationGreyscale;
+import sight.image.pixel.operations.basic.PixelOperationInverse;
 import sight.utils.ImageUtils;
 
 public class ApplicationController implements Initializable {

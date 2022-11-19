@@ -1,4 +1,4 @@
-package sight.image.operations;
+package sight.image.pixel.operations;
 
 import java.awt.image.BufferedImage;
 
