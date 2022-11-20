@@ -26,7 +26,6 @@ import sight.image.pixel.operations.PixelOperation;
  * (NOTE:  This is displaying weirdly in vscode when the tabs make it look proper in the editor...  No idea why)
  * [	5	6	]
  * [	9	10	]
- * [	13	14	]
  * 
  * --------------------------w---h----------------------------------------------------x--y-
  * We are now operating on a 2 x 2 chunk of the original matrix starting at position (1, 1)
