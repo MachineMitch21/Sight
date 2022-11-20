@@ -20,27 +20,46 @@ import javafx.scene.image.Image;
 
 public class ImageUtils {
 
-	private static ExecutorService imgExecutor = Executors.newFixedThreadPool(4);
-	private static final Object imgLock = new Object();
+	private static final ExecutorService IMG_EXECUTOR = Executors.newFixedThreadPool(8);
+	public static final int BATCH_COUNT = 8;
+	private static final Object IMG_LOCK = new Object();
 	
 	public static Pixel getPixelAtPosition(BufferedImage img, int x, int y) {
-		int pixel = img.getRGB(x, y);
+		Pixel p = null;
+		synchronized (IMG_LOCK) {
+			int pixel = img.getRGB(x, y);
+	
+			p = getPixelFrom32BitInt(pixel);
+			p.setxCoordinate(x);
+			p.setyCoordinate(y);
+		}
+		return p;
+	}
 
+	public static Pixel getPixelFrom32BitInt(int pixel) {
 		int a = (pixel >> 24) & 0xff;
 		int r = (pixel >> 16) & 0xff;
 		int g = (pixel >> 8) & 0xff;
 		int b = pixel & 0xff;
 
-		return new Pixel(r, g, b, a, x, y);
+		// Using deprecated Pixel Constructor because we don't know position merely from having the 32 bit integer
+		// TODO:  Figure out a different way to instantiate pixels??
+		return new Pixel(r, g, b, a);
 	}
 
 	public static void setPixelAtPosition(BufferedImage img, int x, int y, Pixel pixel) {
-		int p = (pixel.getA() << 24) | (pixel.getR() << 16) | (pixel.getG() << 8) | pixel.getB();
-
-		img.setRGB(x, y, p);
+		synchronized (IMG_LOCK) {
+			int p = convertPixelTo32BitInt(pixel);
+	
+			img.setRGB(x, y, p);
+		}
 	}
 
-	public static BufferedImage from(BufferedImage img) {
+	public static int convertPixelTo32BitInt(Pixel pixel) {
+		return (pixel.getA() << 24) | (pixel.getR() << 16) | (pixel.getG() << 8) | pixel.getB();
+	}
+
+	public static BufferedImage from(final BufferedImage img) {
 
 		if (img == null) {
 			return null;
@@ -58,7 +77,7 @@ public class ImageUtils {
 		return copy;
 	}
 
-	public static BufferedImage performOperation(BufferedImage buff, int xStart, int xEnd, int yStart, int yEnd, PixelOperation operation) {
+	public static BufferedImage performOperation(final BufferedImage buff, int xStart, int xEnd, int yStart, int yEnd, PixelOperation operation) {
 		
 		BufferedImage newBuff = null;
 
@@ -70,14 +89,13 @@ public class ImageUtils {
 			if (operation != null) {
 				// TODO:  This isn't the best approach.  If we're doing work in separate threads, this is dumb and breaks...
 				newBuff = from(buff);
-				for (int x = xStart; x < xEnd; x++) {
-					for (int y = yStart; y < yEnd; y++) {
-						synchronized (imgLock) {
-							Pixel p = getPixelAtPosition(buff, x, y);
-							p = operation.operate(p);
-							setPixelAtPosition(newBuff, x, y, p);
-						}
-					}
+				OperationBatchJobDTO jobDto = new OperationBatchJobDTO(newBuff, xStart, yStart, xEnd, yEnd, operation);
+				OperationBatchJob batchJob = new OperationBatchJob(jobDto);
+				try {
+					jobDto = batchJob.call();
+					newBuff.setRGB(jobDto.getX(), jobDto.getY(), jobDto.getW(), jobDto.getH(), jobDto.getPixels(), 0, jobDto.getW());
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			} else {
 				newBuff = buff;
@@ -99,7 +117,7 @@ public class ImageUtils {
 		PixelOperationListener opListener
 	) {
 		
-		imgExecutor.submit(new Callable<BufferedImage>() {
+		IMG_EXECUTOR.submit(new Callable<BufferedImage>() {
 
 			@Override
 			public BufferedImage call() throws Exception {
