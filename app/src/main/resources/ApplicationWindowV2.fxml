@@ -44,14 +44,14 @@
 <?import javafx.scene.layout.BorderPane?>
 
 
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sight.gui.javafx.ApplicationControllerV2">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sight.gui.javafx.controllers.ApplicationControllerV2">
    <top>
-      <MenuBar fx:id="appMenuBar" prefWidth="${rootPane.width}" BorderPane.alignment="CENTER">
+      <MenuBar fx:id="appMenuBar" prefWidth="${rootPane.width}" BorderPane.alignment="CENTER" fx:controller="">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
 							<MenuItem fx:id="openMenuItem" mnemonicParsing="false" text="Open" />
-              <MenuItem mnemonicParsing="false" text="Save" />
+              <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" text="Save" />
 							<MenuItem mnemonicParsing="false" text="Save As..." />
             </items>
           </Menu>

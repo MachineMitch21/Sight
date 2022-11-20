@@ -1,4 +1,4 @@
-package sight.gui.javafx;
+package sight.gui.javafx.controllers;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

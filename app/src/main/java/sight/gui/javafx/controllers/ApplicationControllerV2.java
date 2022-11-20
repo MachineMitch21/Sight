@@ -1,4 +1,4 @@
-package sight.gui.javafx;
+package sight.gui.javafx.controllers;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -22,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import sight.gui.javafx.shared.ActiveImageStore;
 import sight.utils.ImageUtils;
 
 public class ApplicationControllerV2 implements Initializable {
@@ -32,66 +33,11 @@ public class ApplicationControllerV2 implements Initializable {
 	@FXML
 	ImageView contentImageView;
 
-	@FXML
-	MenuBar appMenuBar;
-
-	@FXML
-	MenuItem greyscaleMenuItem;
-
-	@FXML
-	MenuItem inverseMenuItem;
-
-	@FXML
-	MenuItem openMenuItem;
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
-		greyscaleMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				BufferedImage buff = ImageUtils.greyscale(SwingFXUtils.fromFXImage(contentImageView.getImage(), null));
-				contentImageView.setImage(SwingFXUtils.toFXImage(buff, null));
-				event.consume();
-			}
-			
-		});
-
-		inverseMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				BufferedImage buff = ImageUtils.inverse(SwingFXUtils.fromFXImage(contentImageView.getImage(), null));
-				contentImageView.setImage(SwingFXUtils.toFXImage(buff, null));
-				event.consume();
-			}
-
-		});
-		openMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				FileChooser openFileChooser = new FileChooser();
-				openFileChooser.setTitle("Open Image");
-				openFileChooser.getExtensionFilters().addAll(Arrays.asList(
-					new ExtensionFilter("All Files", "*.jpg", "*.png", "*.bmp")
-				));
-
-				File f = openFileChooser.showOpenDialog(imageViewAnchorPane.getScene().getWindow());
-				if (f != null) {
-					try {
-						Image img = new Image(new FileInputStream(f));
-						contentImageView.setImage(img);
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					}
-				} else {
-					System.out.println("No file was chosen for open action...");
-				}
-			}
-			
-		});
+		ActiveImageStore.getInstance().addListeners(Arrays.asList(
+			new ApplicationActiveImageStoreListener(this)
+		));
 
 		Image img = new Image("img/spongebob_ripped_pants.jpg");
 		contentImageView.setPreserveRatio(true);
@@ -117,6 +63,10 @@ public class ApplicationControllerV2 implements Initializable {
 			}
 
 		});
+	}
+
+	public ImageView getContentImageView() {
+		return contentImageView;
 	}
 	
 }
