@@ -43,6 +43,14 @@ public class OperationBatchJobDTO {
 	 */
 	private int[] pixels;
 	/**
+	 * The start position into original pixel data
+	 */
+	private int originalDataStart;
+	/**
+	 * The end position into original pixel data
+	 */
+	private int originalDataEnd;
+	/**
 	 *  The start X Coordinate for this batch job
 	 */
 	private int x;
@@ -71,12 +79,16 @@ public class OperationBatchJobDTO {
 	 * @param operation The operation to perform on each pixel.
 	 */
 	public OperationBatchJobDTO(BufferedImage img, PixelOperation operation) {
-		pixels = img.getRGB(0, 0, img.getWidth(), img.getHeight(),null,  0, img.getWidth());
-		this.x = 0;
-		this.y = 0;
-		this.w = img.getWidth();
-		this.h = img.getHeight();
-		this.operation = operation;		
+		this(
+			img.getRGB(0, 0, img.getWidth(), img.getHeight(),null,  0, img.getWidth()),
+			0,
+			img.getWidth() * img.getHeight(),
+			0,
+			0, 
+			img.getWidth(), 
+			img.getHeight(), 
+			operation
+		);	
 	}
 
 	/**
@@ -90,8 +102,23 @@ public class OperationBatchJobDTO {
 	 * @param h The height of pixels to pull from the image data.
 	 * @param operation The operation to perform on each pixel.
 	 */
-	public OperationBatchJobDTO(BufferedImage img, int x, int y, int w, int h, PixelOperation operation) {
-		pixels = img.getRGB(x, y, w, h, null, 0, w);
+	public OperationBatchJobDTO(BufferedImage img, int originalDataStart, int originalDataEnd, int x, int y, int w, int h, PixelOperation operation) {
+		this(
+			img.getRGB(x, y, w, h, null, 0, w),
+			originalDataStart,
+			originalDataEnd,
+			x, 
+			y, 
+			w, 
+			h, 
+			operation
+		);
+	}
+
+	public OperationBatchJobDTO(int[] pixels, int originalDataStart, int originalDataEnd, int x, int y, int w, int h, PixelOperation operation) {
+		this.pixels = Arrays.copyOf(pixels, pixels.length);
+		this.originalDataStart = originalDataStart;
+		this.originalDataEnd = originalDataEnd;
 		this.x = x;
 		this.y = y;
 		this.w = w;
@@ -113,6 +140,8 @@ public class OperationBatchJobDTO {
 	 */
 	public OperationBatchJobDTO(OperationBatchJobDTO original) {
 		this.pixels = Arrays.copyOf(original.pixels, original.pixels.length);
+		this.originalDataStart = original.originalDataStart;
+		this.originalDataEnd = original.originalDataEnd;
 		this.x = original.x;
 		this.y = original.y;
 		this.w = original.w;
@@ -122,6 +151,14 @@ public class OperationBatchJobDTO {
 
 	public int[] getPixels() {
 		return pixels;
+	}
+
+	public int getOriginalDataStart() {
+		return originalDataStart;
+	}
+
+	public int getOriginalDataEnd() {
+		return originalDataEnd;
 	}
 
 	public int getX() {
