@@ -89,10 +89,9 @@ public class ImageUtils {
 			if (operation != null) {
 				// TODO:  This isn't the best approach.  If we're doing work in separate threads, this is dumb and breaks...
 				newBuff = from(buff);
-				OperationBatchJobDTO jobDto = new OperationBatchJobDTO(newBuff, xStart, yStart, xEnd, yEnd, operation);
-				OperationBatchJob batchJob = new OperationBatchJob(jobDto);
+				OperationBatchJobDTO jobDto = new OperationBatchJobDTO(newBuff, operation);
 				try {
-					jobDto = batchJob.call();
+					jobDto = new OperationBatchHandler().batchOperations(jobDto, 10);
 					newBuff.setRGB(jobDto.getX(), jobDto.getY(), jobDto.getW(), jobDto.getH(), jobDto.getPixels(), 0, jobDto.getW());
 				} catch (Exception e) {
 					e.printStackTrace();
