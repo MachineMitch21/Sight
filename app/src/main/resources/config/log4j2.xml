@@ -1,6 +1,4 @@
 <Configuration monitorInterval="5">
-    <!--Logging configuration for development-->
-    <!-- <SystemPropertyArbiter propertyName="logSetting" propertyValue="dev"> -->
         <!--Console appenders for development-->
         <Appenders>
             <Console name="DevConsole" target="SYSTEM_OUT">
@@ -19,10 +17,4 @@
                 <AppenderRef ref="DevConsole"/>
             </Logger>
         </Loggers>
-    <!-- </SystemPropertyArbiter> -->
-
-    <!--Logging configuration for production-->
-    <!-- <SystemPropertyArbiter propertyName="env" propertyValue="prod">
-
-    </SystemPropertyArbiter> -->
 </Configuration>
