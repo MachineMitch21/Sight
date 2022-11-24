@@ -42,7 +42,8 @@ dependencies {
 	implementation 'com.google.guava:guava:30.1.1-jre'
 
 	// Log4j
-	implementation fileTree(dir: 'lib/log4j', include: '*.jar')
+	implementation 'org.apache.logging.log4j:log4j-core:2.19.0'
+	implementation 'org.apache.logging.log4j:log4j-api:2.19.0'
 }
 
 application {

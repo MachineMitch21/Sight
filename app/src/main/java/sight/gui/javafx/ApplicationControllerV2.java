@@ -8,6 +8,9 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
@@ -43,6 +46,8 @@ public class ApplicationControllerV2 implements Initializable {
 
 	@FXML
 	MenuItem openMenuItem;
+
+	private static Logger LOG = LogManager.getLogger("UI");
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -102,7 +107,7 @@ public class ApplicationControllerV2 implements Initializable {
 
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				System.out.println("Anchor Pane width changed: Old <" + oldValue + "> -- New <" + newValue + ">");
+				LOG.info("Anchor Pane width changed: Old <" + oldValue + "> -- New <" + newValue + ">");
 				contentImageView.setFitWidth(newValue.doubleValue());
 			}
 			
@@ -112,7 +117,7 @@ public class ApplicationControllerV2 implements Initializable {
 
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				System.out.println("Anchor Pane height changed: Old <" + oldValue + "> -- New <" + newValue + ">");
+				LOG.error("Anchor Pane height changed: Old <" + oldValue + "> -- New <" + newValue + ">");
 				contentImageView.setFitHeight(newValue.doubleValue());
 			}
 
