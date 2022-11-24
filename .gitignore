@@ -2,5 +2,6 @@
 .gradle/
 bin/
 build/
+app/lib/javafx19
 .vscode/
 .project
