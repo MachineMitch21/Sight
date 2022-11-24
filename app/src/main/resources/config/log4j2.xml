@@ -1,0 +1,20 @@
+<Configuration monitorInterval="5">
+        <!--Console appenders for development-->
+        <Appenders>
+            <Console name="DevConsole" target="SYSTEM_OUT">
+                <PatternLayout pattern = "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            </Console>
+        </Appenders>
+        <!--Console log configuration for development-->
+        <Loggers>
+            <Root level="error">
+                <AppenderRef ref="DevConsole"/>
+            </Root>
+            <Logger name="Calc" level="info">
+                <AppenderRef ref="DevConsole"/>
+            </Logger>
+            <Logger name="UI" level="info">
+                <AppenderRef ref="DevConsole"/>
+            </Logger>
+        </Loggers>
+</Configuration>

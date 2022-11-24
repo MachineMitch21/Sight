@@ -4,6 +4,7 @@
 package sight;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 import javafx.application.Application;
@@ -11,6 +12,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sight.utils.LogUtils;
+
 
 public class App extends Application {
 
@@ -21,6 +24,9 @@ public class App extends Application {
 	@Override
 	public void start(Stage arg0) throws Exception {
 		URL location = getClass().getClassLoader().getResource("ApplicationWindowV2.fxml");
+		// Initialize logging from static file
+		InputStream xmlStream = getClass().getClassLoader().getResourceAsStream("./config/log4j2.xml");
+		LogUtils.loadLogConfigFile(xmlStream);
 
 		try {
 			Parent root = FXMLLoader.load(location);
