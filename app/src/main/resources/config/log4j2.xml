@@ -10,10 +10,10 @@
             <Root level="error">
                 <AppenderRef ref="DevConsole"/>
             </Root>
-            <Logger name="Calc" level="info">
+            <Logger name="Calc" level="info" additivity="false">
                 <AppenderRef ref="DevConsole"/>
             </Logger>
-            <Logger name="UI" level="info">
+            <Logger name="UI" level="info" additivity="false">
                 <AppenderRef ref="DevConsole"/>
             </Logger>
         </Loggers>

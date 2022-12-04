@@ -1,35 +1,37 @@
 package sight.geometry;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Point2D implements Point {
 	
-	int x;
-	int y;
+	private final List<Integer> coords;
 
 	public Point2D(int x, int y) {
-		this.x = x;
-		this.y = y;
+		coords = new ArrayList<Integer>(2);
+		coords.add(x);
+		coords.add(y);
 	}
 
 	public int getX() {
-		return x;
+		return coords.get(0);
 	}
 
 	public void setX(int x) {
-		this.x = x;
+		coords.set(0, x);
 	}
 
 	public int getY() {
-		return y;
+		return coords.get(1);
 	}
 
 	public void setY(int y) {
-		this.y = y;
+		coords.set(1, y);
 	}
 
 	@Override
-	public int[] getCoords() {
-		return new int[] {x, y};
+	public final List<Integer> coords() {
+		return coords;
 	}
-
 	
 }
