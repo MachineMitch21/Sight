@@ -1,7 +1,9 @@
 package sight.geometry;
 
+import java.util.List;
+
 public interface Point {
 
-	int[] getCoords();
+	List<Integer> coords();
 
 }
